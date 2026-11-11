@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Student {
+  id                 BigInt   @id @default(autoincrement())
+  studentCode        String   @unique @map("student_code") @db.VarChar(8)
+  fullName           String   @map("full_name")
+  email              String?
+  seatTcn            String?  @map("seat_tcn")
+  seatPh2            String?  @map("seat_ph2")
+  checkinTime        String?  @map("checkin_time")
+  checkinRoom        String?  @map("checkin_room")
+  awardTime          String?  @map("award_time")
+  contactGroup       String?  @map("contact_group")
+  invitationLink     String?  @map("invitation_link")
+  driveLink          String?  @map("drive_link")
+  ledImageKey        String?  @map("led_image_key")
+  sessionLabel       String?  @map("session_label")
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("students")
+}
+
+model LookupRateLimit {
+  keyHash         String   @id @map("key_hash")
+  windowStartedAt DateTime @map("window_started_at") @db.Timestamptz(6)
+  requestCount    Int      @map("request_count")
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("lookup_rate_limits")
+}
